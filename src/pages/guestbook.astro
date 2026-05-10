@@ -30,18 +30,18 @@ if (Astro.request.method === "POST") {
 
       try {
         const transporter = nodemailer.createTransport({
-          host: import.meta.env.SMTP_HOST || "smtp.zoho.com",
-          port: Number(import.meta.env.SMTP_PORT) || 465,
-          secure: import.meta.env.SMTP_SECURE ? import.meta.env.SMTP_SECURE === "true" : true,
+          host: process.env.SMTP_HOST || "smtp.zoho.com",
+          port: Number(process.env.SMTP_PORT) || 465,
+          secure: process.env.SMTP_SECURE ? process.env.SMTP_SECURE === "true" : true,
           auth: {
-            user: import.meta.env.SMTP_USER,
-            pass: import.meta.env.SMTP_PASS,
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS,
           },
         });
 
-        if (import.meta.env.SMTP_USER && import.meta.env.SMTP_PASS) {
+        if (process.env.SMTP_USER && process.env.SMTP_PASS) {
           await transporter.sendMail({
-            from: `"Portfolio Guestbook" <${import.meta.env.SMTP_USER}>`,
+            from: `"Portfolio Guestbook" <${process.env.SMTP_USER}>`,
             to: "zaidan@arxiron.com",
             subject: `New Guestbook Message from ${sanitizedName}`,
             text: `You have received a new message on your portfolio guestbook:\n\nName: ${sanitizedName}\nWebsite: ${sanitizedWebsite || 'None'}\nMessage:\n${sanitizedMessage}`,
