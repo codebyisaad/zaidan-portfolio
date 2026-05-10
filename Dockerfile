@@ -33,11 +33,11 @@ ENV PORT=4321
 ENV NODE_ENV=production
 ENV ASTRO_DATABASE_FILE=/app/data/local.db
 
-# Copy the local database generated during build
-COPY --from=base /app/data /app/data
+# Copy the local database generated during build to a safe initial directory
+COPY --from=base /app/data /app/initial-data
 
 # Expose the port the app runs on
 EXPOSE 4321
 
-# Start the Node.js server
-CMD ["node", "./dist/server/entry.mjs"]
+# Start the Node.js server, ensuring the database is copied to the volume if it's missing
+CMD ["sh", "-c", "if [ ! -f /app/data/local.db ]; then cp /app/initial-data/local.db /app/data/local.db; fi && node ./dist/server/entry.mjs"]
