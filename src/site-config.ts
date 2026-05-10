@@ -1,6 +1,6 @@
 export const SITE = {
   site: {
-    url: "https://zaidan.arxiron.com/",
+    url: "https://arxiron.com/",
   },
   author: {
     firstName: "Zaidan",
@@ -17,7 +17,7 @@ export const SITE = {
   },
   links: {
     github: "https://github.com/zaidanch",
-    linkedin: "https://www.linkedin.com/in/placeholder/",
+    linkedin: "https://www.linkedin.com/in/",
     email: "zaidan@arxiron.com",
   },
   cal: {
