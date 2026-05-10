@@ -1,0 +1,30 @@
+---
+import Card from "./Card/index.astro";
+import { SITE } from "../site-config";
+---
+
+<Card colSpan="md:col-span-1" rowSpan="md:row-span-6" title="About me">
+  <div class="flex flex-col gap-2">
+    <p class="sr-only">
+      Hi, I'm {SITE.author.firstName}, a Senior Software Engineer from {SITE.location.countryName} with 6 years of experience building scalable, cloud-native web applications and AI-driven platforms. My expertise spans Python (Django, FastAPI), React, Next.js, and cloud engineering on AWS. I enjoy owning production systems end-to-end, from architecture and API design to deployment. I also have deep experience in AI/ML pipelines, utilizing LangChain, Hugging Face, PyTorch, and vector databases like Pinecone and Qdrant.
+    </p>
+    <div aria-hidden="true" class="text-sm font-light">
+      <p class="text-sm font-light">
+        Hi, I'm {SITE.author.firstName}, a Senior Software Engineer with 6 years of experience building scalable, cloud-native web apps and data-driven platforms.
+      </p>
+      <br />
+      My primary tech stack includes:
+      <ul class="list-disc list-inside mt-1 mb-2">
+        <li>Python (Django, FastAPI)</li>
+        <li>React, Next.js, Nuxt, Vue</li>
+        <li>MERN Stack</li>
+        <li>AWS, GCP, Terraform</li>
+        <li>LangChain/Graph, PyTorch, Hugging Face</li>
+        <li>Pinecone, Qdrant, FAISS</li>
+      </ul>
+      <p class="text-sm font-light mt-2">
+        I enjoy owning production systems end-to-end, and recently led the architecture for a luxury real estate platform's core business model. I also actively build AI-driven features using RAG and supervised fine-tuning.
+      </p>
+    </div>
+  </div>
+</Card>
