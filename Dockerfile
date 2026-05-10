@@ -1,5 +1,8 @@
 FROM node:23-alpine AS base
 
+ARG SITE_URL=https://arxiron.com/
+ENV SITE_URL=${SITE_URL}
+
 WORKDIR /app
 
 # Copy package files

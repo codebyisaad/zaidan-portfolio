@@ -1,6 +1,9 @@
 services:
   portfolio:
-    build: .
+    build:
+      context: .
+      args:
+        SITE_URL: ${SITE_URL:-https://arxiron.com/}
     image: astro-bento-portfolio
     ports:
       - "4321:4321"
