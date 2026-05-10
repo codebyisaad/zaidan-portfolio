@@ -11,8 +11,11 @@ RUN npm ci --legacy-peer-deps
 # Copy the rest of the project files
 COPY . .
 
+# Set Astro DB file path for local production builds
+ENV ASTRO_DATABASE_FILE=/app/data/local.db
+
 # Build the Astro project
-RUN npm run build
+RUN mkdir -p /app/data && npm run build
 
 # Start a new, smaller stage for the runtime
 FROM node:23-alpine AS runtime
@@ -28,6 +31,10 @@ COPY --from=base /app/package.json ./
 ENV HOST=0.0.0.0
 ENV PORT=4321
 ENV NODE_ENV=production
+ENV ASTRO_DATABASE_FILE=/app/data/local.db
+
+# Copy the local database generated during build
+COPY --from=base /app/data /app/data
 
 # Expose the port the app runs on
 EXPOSE 4321
