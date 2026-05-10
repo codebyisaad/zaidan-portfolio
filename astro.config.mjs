@@ -68,6 +68,9 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [remarkReadingTime],
   },
+  security: {
+    checkOrigin: false,
+  },
   output: "server",
   adapter: node({ mode: "standalone" }),
   vite: {
