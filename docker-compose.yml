@@ -13,9 +13,12 @@ services:
     environment:
       - NODE_ENV=production
       - DATABASE_URL=postgres://${DB_USER:-portfolio}:${DB_PASSWORD:-password}@db:5432/${DB_NAME:-portfolio_db}
+      - DIRECTUS_INTERNAL_URL=http://directus:8055
     depends_on:
       db:
         condition: service_healthy
+      directus:
+        condition: service_started
 
   db:
     image: postgres:16-alpine
@@ -32,5 +35,30 @@ services:
       timeout: 5s
       retries: 5
 
+  directus:
+    image: directus/directus:11
+    restart: unless-stopped
+    ports:
+      - "8055:8055"
+    environment:
+      DB_CLIENT: pg
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: ${DB_NAME:-portfolio_db}
+      DB_USER: ${DB_USER:-portfolio}
+      DB_PASSWORD: ${DB_PASSWORD:-password}
+      SECRET: ${DIRECTUS_SECRET:-change-this-to-a-random-secret}
+      ADMIN_EMAIL: ${DIRECTUS_ADMIN_EMAIL:-zaidan@arxiron.com}
+      ADMIN_PASSWORD: ${DIRECTUS_ADMIN_PASSWORD:-admin123}
+      PUBLIC_URL: ${DIRECTUS_URL:-https://admin.arxiron.com}
+      CORS_ENABLED: "true"
+      CORS_ORIGIN: "true"
+    volumes:
+      - directus_uploads:/directus/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+
 volumes:
   postgres_data:
+  directus_uploads:

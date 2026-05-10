@@ -1,16 +1,17 @@
 ---
 import Card from "./Card/index.astro";
 import Button from "./Button.astro";
-import { LINKS } from "../lib/constants";
 import { Icon } from "astro-icon/components";
 import Tooltip from "./Tooltip/index";
 import { Image } from "astro:assets";
-import { SITE } from "../site-config";
+import { getSiteSettings } from "../lib/directus";
 import MemojiAvatarDefault from "../assets/me.webp";
 import MemojiAvatarBlue from "../assets/me-blue.webp";
 import MemojiAvatarGreen from "../assets/me-green.webp";
 import MemojiAvatarPurple from "../assets/me-purple.webp";
 import MemojiAvatarYellow from "../assets/me-yellow.webp";
+
+const settings = await getSiteSettings();
 ---
 
 <Card colSpan="md:col-span-3" rowSpan="md:row-span-4">
@@ -20,23 +21,20 @@ import MemojiAvatarYellow from "../assets/me-yellow.webp";
         <h6 class="text-sm font-light m-0 text-darkslate-300">welcome</h6>
 
         <p class="sr-only">
-          Hi, I'm {SITE.author.fullName}, a Senior Software Engineer & AI Engineer with a focus on scalable, cloud-native applications and AI-driven features.
-          Feel free to reach out to me if you have any project in mind, want to collaborate, or just want to say hello.
+          {settings.intro_text.replace(/<[^>]*>/g, "")}
+          {settings.intro_cta}
         </p>
         <p aria-hidden="true" class="m-0 font-light text-md">
-          <span>
-            Hi, I'm <b class="font-bold">{SITE.author.fullName}</b>, a Senior Software Engineer & AI Engineer with a focus on scalable, cloud-native applications and AI-driven features.
-          </span>
+          <span set:html={settings.intro_text} />
           <br />
           <span class="block mt-2">
-            Feel free to reach out to me if you have any project in mind, want
-            to collaborate, or just want to say hello.
+            {settings.intro_cta}
           </span>
         </p>
       </div>
       <div class="flex flex-col lg:flex-row gap-2 lg:gap-4">
         <div class="flex gap-2 lg:gap-4">
-          <a href={LINKS.github} aria-label="github profile" target="_blank">
+          <a href={settings.github_url} aria-label="github profile" target="_blank">
             <Button aria-label="github profile">
               <Icon name="ri:github-fill" />
               <span class="sr-only" data-umami-event="github button"
@@ -45,7 +43,7 @@ import MemojiAvatarYellow from "../assets/me-yellow.webp";
             </Button>
           </a>
           <a
-            href={LINKS.linkedin}
+            href={settings.linkedin_url}
             aria-label="linkedin profile"
             target="_blank"
           >
@@ -67,14 +65,13 @@ import MemojiAvatarYellow from "../assets/me-yellow.webp";
           </Tooltip>
         </div>
         <Button
-          aria-label="book a call"
-          data-cal-link={SITE.cal.username}
+          aria-label="Send email"
         >
-          <span
-            data-umami-event="Book a call"
-            data-cal-link={SITE.cal.username}
-            class="font-bold whitespace-nowrap">Book a call</span
-          >
+          <a
+            href={`mailto:${settings.email}`}
+            class="font-bold whitespace-nowrap"
+            data-umami-event="Send email"
+          >Say Hello</a>
         </Button>
       </div>
     </div>
@@ -88,7 +85,7 @@ import MemojiAvatarYellow from "../assets/me-yellow.webp";
       data-theme-green-theme={MemojiAvatarGreen.src}
       data-theme-purple-theme={MemojiAvatarPurple.src}
       class="w-auto max-h-[300px] select-none absolute right-[-110px] bottom-[-20px] z-[-1] opacity-50 md:opacity-100 md:relative md:right-auto md:bottom-auto md:z-auto pointer-events-none"
-      alt={`memoji of ${SITE.author.firstName}`}
+      alt={`memoji of ${settings.first_name}`}
       loading="eager"
     />
   </div>

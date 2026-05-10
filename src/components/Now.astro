@@ -1,6 +1,9 @@
 ---
 import Card from "./Card/index.astro";
 import Pulse from "./Pulse.astro";
+import { getSiteSettings } from "../lib/directus";
+
+const settings = await getSiteSettings();
 ---
 
 <Card colSpan="md:col-span-1" rowSpan="md:row-span-1" padding="p-4">
@@ -10,5 +13,5 @@ import Pulse from "./Pulse.astro";
     </div>
     <Pulse />
   </div>
-  <p class="text-xs">Currently working fulltime at <a class="text-bold underline" href="https://devsinc.com" target="_blank">Devsinc</a>.</p>
+  <p class="text-xs">{settings.now_text} <a class="text-bold underline" href={settings.now_link_url} target="_blank">{settings.now_link_text}</a>.</p>
 </Card>
