@@ -1,12 +1,10 @@
-import { db, Guestbook as GuestbookTable } from "astro:db";
+import { db, Guestbook } from "../../db";
+import { desc } from "drizzle-orm";
 import type { APIRoute } from "astro";
 
 export const GET: APIRoute = async () => {
   try {
-    const allEntries = await db.select().from(GuestbookTable);
-    const entries = allEntries.sort((a, b) => 
-      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
+    const entries = await db.select().from(Guestbook).orderBy(desc(Guestbook.createdAt));
     
     return new Response(JSON.stringify(entries), {
       status: 200,
@@ -46,10 +44,10 @@ export const POST: APIRoute = async ({ request }) => {
     const sanitizedMessage = message.trim().slice(0, 1000);
     const sanitizedWebsite = website ? website.trim().slice(0, 200) : null;
 
-    const result = await db.insert(GuestbookTable).values({
+    const result = await db.insert(Guestbook).values({
       name: sanitizedName,
       message: sanitizedMessage,
-      website: sanitizedWebsite || undefined,
+      website: sanitizedWebsite,
       createdAt: new Date(),
     }).returning();
 
@@ -72,4 +70,3 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 };
-

@@ -1,7 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { SITE } from "../site-config";
-import { db, Guestbook as GuestbookTable } from "astro:db";
+import { db, Guestbook } from "../db";
+import { desc } from "drizzle-orm";
 import nodemailer from "nodemailer";
 
 let formError: string | null = null;
@@ -20,10 +21,10 @@ if (Astro.request.method === "POST") {
       const sanitizedMessage = message.trim().slice(0, 1000);
       const sanitizedWebsite = website ? website.trim().slice(0, 200) : null;
 
-      await db.insert(GuestbookTable).values({
+      await db.insert(Guestbook).values({
         name: sanitizedName,
         message: sanitizedMessage,
-        website: sanitizedWebsite || undefined,
+        website: sanitizedWebsite,
         createdAt: new Date(),
       });
 
@@ -59,18 +60,7 @@ if (Astro.request.method === "POST") {
   }
 }
 
-const allEntries = await db.select().from(GuestbookTable);
-const entries = (
-  allEntries as Array<{
-    id: number;
-    name: string;
-    message: string;
-    website: string | null;
-    createdAt: Date;
-  }>
-).sort(
-  (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-);
+const entries = await db.select().from(Guestbook).orderBy(desc(Guestbook.createdAt));
 
 const ITEMS_PER_PAGE = 10;
 const totalPages = Math.ceil(entries.length / ITEMS_PER_PAGE);

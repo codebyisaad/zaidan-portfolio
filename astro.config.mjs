@@ -10,15 +10,12 @@ import { remarkReadingTime } from "./src/lib/remark-reading-time.mjs";
 
 import svelte from "@astrojs/svelte";
 
-import db from "@astrojs/db";
-
-const envSiteUrl = process.env.SITE_URL ?? "https://gianmarcocavallo.com/";
+const envSiteUrl = process.env.SITE_URL ?? "https://arxiron.com/";
 const site = envSiteUrl.endsWith("/") ? envSiteUrl : `${envSiteUrl}/`;
 const siteNoTrailingSlash = site.endsWith("/") ? site.slice(0, -1) : site;
 
 // https://astro.build/config
 export default defineConfig({
-
   fonts: [
     {
       provider: fontProviders.local(),
@@ -67,7 +64,6 @@ export default defineConfig({
     UnoCSS({ injectReset: true }),
     icon(),
     svelte(),
-    db(),
   ],
   markdown: {
     remarkPlugins: [remarkReadingTime],
