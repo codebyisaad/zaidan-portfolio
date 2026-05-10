@@ -14,6 +14,8 @@ services:
       - NODE_ENV=production
       - DATABASE_URL=postgres://${DB_USER:-portfolio}:${DB_PASSWORD:-password}@db:5432/${DB_NAME:-portfolio_db}
       - DIRECTUS_INTERNAL_URL=http://directus:8055
+    volumes:
+      - ./directus_uploads:/app/directus_uploads:ro
     depends_on:
       db:
         condition: service_healthy
@@ -54,11 +56,10 @@ services:
       CORS_ENABLED: "true"
       CORS_ORIGIN: "true"
     volumes:
-      - directus_uploads:/directus/uploads
+      - ./directus_uploads:/directus/uploads
     depends_on:
       db:
         condition: service_healthy
 
 volumes:
   postgres_data:
-  directus_uploads:
