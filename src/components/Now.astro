@@ -1,9 +1,7 @@
 ---
 import Card from "./Card/index.astro";
 import Pulse from "./Pulse.astro";
-import { getSiteSettings } from "../lib/directus";
-
-const settings = await getSiteSettings();
+import { SITE } from "../site-config";
 ---
 
 <Card colSpan="md:col-span-1" rowSpan="md:row-span-1" padding="p-4">
@@ -13,5 +11,10 @@ const settings = await getSiteSettings();
     </div>
     <Pulse />
   </div>
-  <p class="text-xs">{settings.now_text} <a class="text-bold underline" href={settings.now_link_url} target="_blank">{settings.now_link_text}</a>.</p>
+  <p class="text-xs">
+    {SITE.now.text}{" "}
+    <a class="text-bold underline" href={SITE.now.linkUrl} target="_blank">
+      {SITE.now.linkText}
+    </a>.
+  </p>
 </Card>

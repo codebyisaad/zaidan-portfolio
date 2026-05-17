@@ -4,14 +4,13 @@ import Button from "./Button.astro";
 import { Icon } from "astro-icon/components";
 import Tooltip from "./Tooltip/index";
 import { Image } from "astro:assets";
-import { getSiteSettings } from "../lib/directus";
+import { SITE } from "../site-config";
 import MemojiAvatarDefault from "../assets/me.webp";
 import MemojiAvatarBlue from "../assets/me-blue.webp";
 import MemojiAvatarGreen from "../assets/me-green.webp";
 import MemojiAvatarPurple from "../assets/me-purple.webp";
 import MemojiAvatarYellow from "../assets/me-yellow.webp";
 
-const settings = await getSiteSettings();
 ---
 
 <Card colSpan="md:col-span-3" rowSpan="md:row-span-4">
@@ -21,20 +20,20 @@ const settings = await getSiteSettings();
         <h6 class="text-sm font-light m-0 text-darkslate-300">welcome</h6>
 
         <p class="sr-only">
-          {settings.intro_text.replace(/<[^>]*>/g, "")}
-          {settings.intro_cta}
+          {SITE.intro.html.replace(/<[^>]*>/g, "")}
+          {SITE.intro.cta}
         </p>
         <p aria-hidden="true" class="m-0 font-light text-md">
-          <span set:html={settings.intro_text} />
+          <span set:html={SITE.intro.html} />
           <br />
           <span class="block mt-2">
-            {settings.intro_cta}
+            {SITE.intro.cta}
           </span>
         </p>
       </div>
       <div class="flex flex-col lg:flex-row gap-2 lg:gap-4">
         <div class="flex gap-2 lg:gap-4">
-          <a href={settings.github_url} aria-label="github profile" target="_blank">
+          <a href={SITE.links.github} aria-label="github profile" target="_blank">
             <Button aria-label="github profile">
               <Icon name="ri:github-fill" />
               <span class="sr-only" data-umami-event="github button"
@@ -43,7 +42,7 @@ const settings = await getSiteSettings();
             </Button>
           </a>
           <a
-            href={settings.linkedin_url}
+            href={SITE.links.linkedin}
             aria-label="linkedin profile"
             target="_blank"
           >
@@ -68,7 +67,7 @@ const settings = await getSiteSettings();
           aria-label="Send email"
         >
           <a
-            href={`mailto:${settings.email}`}
+            href={`mailto:${SITE.links.email}`}
             class="font-bold whitespace-nowrap"
             data-umami-event="Send email"
           >Say Hello</a>
@@ -85,7 +84,7 @@ const settings = await getSiteSettings();
       data-theme-green-theme={MemojiAvatarGreen.src}
       data-theme-purple-theme={MemojiAvatarPurple.src}
       class="w-auto max-h-[300px] select-none absolute right-[-110px] bottom-[-20px] z-[-1] opacity-50 md:opacity-100 md:relative md:right-auto md:bottom-auto md:z-auto pointer-events-none"
-      alt={`memoji of ${settings.first_name}`}
+      alt={`memoji of ${SITE.author.firstName}`}
       loading="eager"
     />
   </div>

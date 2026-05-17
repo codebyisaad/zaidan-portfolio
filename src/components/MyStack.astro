@@ -1,8 +1,6 @@
 ---
 import Card from "./Card/index.astro";
-import { getSkills } from "../lib/directus";
-
-const skills = await getSkills();
+import { SITE } from "../site-config";
 ---
 
 <Card colSpan="md:col-span-2" rowSpan="md:row-span-1" title="My Stack">
@@ -10,6 +8,6 @@ const skills = await getSkills();
     Here's a snapshot of the primary tools and technologies I work with:
   </p>
   <ul class="text-sm font-light pl-5 list-disc">
-    {skills.map((skill) => <li><strong>{skill.name}</strong></li>)}
+    {SITE.stack.map((name) => <li><strong>{name}</strong></li>)}
   </ul>
 </Card>

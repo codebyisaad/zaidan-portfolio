@@ -1,28 +1,25 @@
 ---
 import Card from "./Card/index.astro";
-import { getSiteSettings, getAboutSkills } from "../lib/directus";
-
-const settings = await getSiteSettings();
-const aboutSkills = await getAboutSkills();
+import { SITE } from "../site-config";
 ---
 
 <Card colSpan="md:col-span-1" rowSpan="md:row-span-6" title="About me">
   <div class="flex flex-col gap-2">
     <p class="sr-only">
-      {settings.about_intro} My primary tech stack includes: {aboutSkills.join(", ")}.
-      {settings.about_detail}
+      {SITE.about.intro} My primary tech stack includes: {SITE.about.skills.join(", ")}.
+      {SITE.about.detail}
     </p>
     <div aria-hidden="true" class="text-sm font-light">
       <p class="text-sm font-light">
-        {settings.about_intro}
+        {SITE.about.intro}
       </p>
       <br />
       My primary tech stack includes:
       <ul class="list-disc list-inside mt-1 mb-2">
-        {aboutSkills.map((skill) => <li>{skill}</li>)}
+        {SITE.about.skills.map((skill) => <li>{skill}</li>)}
       </ul>
       <p class="text-sm font-light mt-2">
-        {settings.about_detail}
+        {SITE.about.detail}
       </p>
     </div>
   </div>
