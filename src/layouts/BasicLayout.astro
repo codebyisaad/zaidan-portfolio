@@ -6,66 +6,43 @@ import { SITE } from "../site-config";
 interface Props {
   title: string;
   description: string;
-  page?: "travel" | "blog";
-  slug?: string | undefined;
-  pubDate?: string;
 }
 
-const { title, description, page, pubDate } = Astro.props;
+const { title, description } = Astro.props;
 const image = `${Astro.url.origin}/og-image.png`;
 
-const schema =
-  page !== "blog"
-    ? {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        name: SITE.author.fullName,
-        url: Astro.url.origin,
-        sameAs: [LINKS.linkedin, LINKS.github],
-        image: `${Astro.url.origin}/og-image.png`,
-        jobTitle: SITE.author.jobTitle,
-        knowsAbout: ["JavaScript", "React", "Astro", "Solid.js", "Svelte", "Node.js", "User Experience", "Web Development"],
-        worksFor: {
-          "@type": "Organization",
-          name: "Self-Employed",
-          address: {
-            "@type": "PostalAddress",
-            addressLocality: SITE.location.countryName,
-            addressCountry: SITE.location.countryCode,
-          },
-        },
-        nationality: {
-          "@type": "Country",
-          name: SITE.location.countryName,
-        },
-      }
-    : {
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        mainEntityOfPage: {
-          "@type": "WebPage",
-          "@id": Astro.url.href,
-        },
-        headline: title || title,
-        description: description || title,
-        image: `${Astro.url.origin}/og-image.png`, //TODO: dynamic
-        author: {
-          "@type": "Person",
-          name: SITE.author.shortName,
-          url: Astro.url.origin,
-          sameAs: [LINKS.linkedin, LINKS.github],
-        },
-        publisher: {
-          "@type": "Organization",
-          name: SITE.author.shortName,
-          logo: {
-            "@type": "ImageObject",
-            url: `${Astro.url.origin}/og-image.png`,
-          },
-        },
-        datePublished: pubDate || new Date().toISOString(),
-        dateModified: pubDate || new Date().toISOString(),
-      };
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: SITE.author.fullName,
+  url: Astro.url.origin,
+  sameAs: [LINKS.linkedin, LINKS.github],
+  image: `${Astro.url.origin}/og-image.png`,
+  jobTitle: SITE.author.jobTitle,
+  knowsAbout: [
+    "JavaScript",
+    "React",
+    "Astro",
+    "Solid.js",
+    "Svelte",
+    "Node.js",
+    "User Experience",
+    "Web Development",
+  ],
+  worksFor: {
+    "@type": "Organization",
+    name: "Self-Employed",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: SITE.location.countryName,
+      addressCountry: SITE.location.countryCode,
+    },
+  },
+  nationality: {
+    "@type": "Country",
+    name: SITE.location.countryName,
+  },
+};
 ---
 
 <!doctype html>
