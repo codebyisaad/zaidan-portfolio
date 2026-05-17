@@ -54,4 +54,15 @@ jobs:
             set -euo pipefail
             mkdir -p /root/zaidan-portfolio
             cd /root/zaidan-portfolio
+
+            if [ ! -f .env ]; then
+              if [ -f .env.example ]; then
+                cp .env.example .env
+                echo "::warning::Created .env from .env.example. SSH in and set real secrets before production use."
+              else
+                echo "::error::Missing .env and .env.example on the VPS." >&2
+                exit 1
+              fi
+            fi
+
             docker compose up -d --build
